@@ -1,0 +1,4 @@
+library(tidyverse)
+
+housing <- read.csv("C:/Users/wangc/Desktop/hackathon/train.csv")
+
