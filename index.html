@@ -1283,28 +1283,36 @@
     }
 
     
-    function useGroundingAsJournal() {
-      const parts = [
-        ['5 things you can see', document.getElementById('groundSee').value.trim()],
-        ['4 things you can feel', document.getElementById('groundFeel').value.trim()],
-        ['3 things you can hear', document.getElementById('groundHear').value.trim()],
-        ['2 things you can smell', document.getElementById('groundSmell').value.trim()],
-        ['1 thing you can taste', document.getElementById('groundTaste').value.trim()],
-        ['Anything else', document.getElementById('groundOther').value.trim()]
-      ].filter(function(item) { return item[1]; });
+   function useGroundingAsJournal() {
+  const parts = [
+    ['5 things you can see', document.getElementById('groundSee').value.trim()],
+    ['4 things you can feel', document.getElementById('groundFeel').value.trim()],
+    ['3 things you can hear', document.getElementById('groundHear').value.trim()],
+    ['2 things you can smell', document.getElementById('groundSmell').value.trim()],
+    ['1 thing you can taste', document.getElementById('groundTaste').value.trim()],
+    ['Anything else', document.getElementById('groundOther').value.trim()]
+  ].filter(function(item) { return item[1]; });
 
-      if (!parts.length) {
-        return;
-      }
+  if (!parts.length) {
+    return;
+  }
 
-      const journal = document.getElementById('journalText');
-      const block = parts.map(function(item) {
-        return item[0] + ': ' + item[1];
-      }).join('\n');
+  const journal = document.getElementById('journalText');
+  
+  // ✅ Double line break between each item
+  const block = parts.map(function(item) {
+    return item[0] + ': ' + item[1];
+  }).join('\n\n');
 
-      journal.value = journal.value ? journal.value + '\n\n' + block : block;
-      saveJournalDraft();
-    }
+  // Add a separator if there's existing journal content
+  if (journal.value.trim()) {
+    journal.value = journal.value + '\n\n--- Grounding Exercise ---\n\n' + block;
+  } else {
+    journal.value = block;
+  }
+  
+  saveJournalDraft();
+}
 
     function saveJournalDraft() {
       saveToStorage(STORAGE_KEYS.journalText, document.getElementById('journalText').value);
