@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anxiety Relief Companion</title>
+  <title>Punch</title>
   <style>
     :root {
       --bg: #eef3f9;
@@ -492,8 +492,8 @@
     <section class="hero">
       <div>
         <div class="eyebrow">Private daily support</div>
-        <h1>Calm check-in app</h1>
-        <p>A softer place to score the day, write freely, and keep private notes on this device until you choose to export them.</p>
+        <h1>Punch</h1>
+        <p>A gentle place to breathe, write freely, and keep private notes on this device until you choose to export them.</p>
         <div class="app-badge">Local-first privacy</div>
       </div>
       <div class="hero-actions">
@@ -516,49 +516,13 @@
         <div>
           <div class="card">
             <h2>Today’s support plan</h2>
-            <p class="subtle" id="recommendationText">Start with a quick check-in, then come back here whenever you want to write freely and keep things soft and simple.</p>
+            <p class="subtle" id="recommendationText">Start with a quick check-in, then use Ground whenever you want to settle yourself and write freely.</p>
             <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
               <button class="btn primary" onclick="showSection('checkin')">Start check-in</button>
               <button class="btn secondary" onclick="showSection('breathing')">Do breathing exercise</button>
             </div>
           </div>
 
-          <div class="card">
-            <h2>Journal</h2>
-            <p class="subtle">This is a calm space to write whatever you want. Your journal stays separate from the check-in records, and you decide what gets included when you export something for a counselor.</p>
-            <textarea id="journalText" placeholder="Write anything you want here..."></textarea>
-
-            <div class="two-col" style="margin-top:12px;">
-              <div>
-                <label class="small-label" for="journalDate">Entry date</label>
-                <input id="journalDate" type="text" />
-              </div>
-              <div>
-                <label class="small-label" for="journalMood">Current mood</label>
-                <input id="journalMood" type="text" placeholder="e.g. calm, tired, anxious, mixed" />
-              </div>
-            </div>
-
-            <div style="margin-top:16px;">
-              <label class="small-label">Include saved check-in records in export</label>
-              <details class="export-dropdown">
-                <summary>Select what to include</summary>
-                <div class="export-dropdown-menu">
-                  <label><input type="checkbox" id="includeCheckinLevel" checked /> Daily score</label>
-                  <label><input type="checkbox" id="includeCheckinTags" checked /> Tags</label>
-                  <label><input type="checkbox" id="includeCheckinTriggers" checked /> Triggers or context</label>
-                  <label><input type="checkbox" id="includeCheckinThoughts" checked /> Thoughts saved with each check-in</label>
-                  <label><input type="checkbox" id="includeCheckinCount" checked /> Total check-ins</label>
-                  <label><input type="checkbox" id="includeCheckinAverage" checked /> Average daily score</label>
-                </div>
-              </details>
-            </div>
-
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
-              <button class="btn primary" id="exportPdfButton" onclick="exportJournalPdf()">Export journal to PDF</button>
-            </div>
-            <div class="footer-note">The export uses the records already saved in this browser and turns them into a counselor-ready print view only when the user asks for it.</div>
-          </div>
         </div>
 
         <div>
@@ -577,7 +541,7 @@
 
     <section id="journalPrintSection" class="hidden">
       <div class="card" style="box-shadow:none; border:1px solid #d1d5db;">
-        <h1 style="margin-top:0;">Anxiety Relief Companion</h1>
+        <h1 style="margin-top:0;">Punch</h1>
         <p class="subtle">Journal export for supportive review</p>
 
         <div class="card" style="box-shadow:none; border:1px solid #d1d5db; margin-top:16px;">
@@ -644,19 +608,64 @@
       </div>
     </section>
 
-    <section id="grounding" class="section hidden">
+    
+<section id="grounding" class="section hidden">
       <div class="card">
-        <h2>5-4-3-2-1 grounding</h2>
-        <p class="subtle">Use your senses to come back to the present moment.</p>
-        <ol class="grounding-list">
-          <li>5 things you can see</li>
-          <li>4 things you can feel</li>
-          <li>3 things you can hear</li>
-          <li>2 things you can smell</li>
-          <li>1 thing you can taste</li>
-        </ol>
+        <h2>Ground and write</h2>
+        <p class="subtle">Use these prompts if they help, then write anything else you want. Keep it light, honest, and at your own pace.</p>
+
+        <div class="alert">
+          <strong>5-4-3-2-1 writing hints</strong><br>
+          5 things you can see<br>
+          4 things you can feel<br>
+          3 things you can hear<br>
+          2 things you can smell<br>
+          1 thing you can taste
+        </div>
+
+        <div style="margin-top:16px;">
+          <label class="small-label" for="journalPromptNotes">Use the hints or add anything else</label>
+          <textarea id="journalPromptNotes" placeholder="You can use the 5-4-3-2-1 prompts above, list small details around you, or simply write anything else you want to note down..."></textarea>
+        </div>
+
+        <div style="margin-top:16px;">
+          <label class="small-label" for="journalText">Journal</label>
+          <textarea id="journalText" placeholder="Write freely here..."></textarea>
+        </div>
+
+        <div class="two-col" style="margin-top:12px;">
+          <div>
+            <label class="small-label" for="journalDate">Entry date</label>
+            <input id="journalDate" type="text" />
+          </div>
+          <div>
+            <label class="small-label" for="journalMood">Current mood</label>
+            <input id="journalMood" type="text" placeholder="e.g. calm, tired, anxious, mixed" />
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <label class="small-label">Include saved check-in records in export</label>
+          <details class="export-dropdown">
+            <summary>Select what to include</summary>
+            <div class="export-dropdown-menu">
+              <label><input type="checkbox" id="includeCheckinLevel" checked /> Daily score</label>
+              <label><input type="checkbox" id="includeCheckinTags" checked /> Tags</label>
+              <label><input type="checkbox" id="includeCheckinTriggers" checked /> Triggers or context</label>
+              <label><input type="checkbox" id="includeCheckinThoughts" checked /> Thoughts saved with each check-in</label>
+              <label><input type="checkbox" id="includeCheckinCount" checked /> Total check-ins</label>
+              <label><input type="checkbox" id="includeCheckinAverage" checked /> Average daily score</label>
+            </div>
+          </details>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+          <button class="btn primary" id="exportPdfButton" onclick="exportJournalPdf()">Export journal to PDF</button>
+        </div>
+        <div class="footer-note">Export when you want a clean record to share with a psychologist or counselor.</div>
       </div>
     </section>
+
 
     <section id="progress" class="section hidden">
       <div class="card">
@@ -780,6 +789,7 @@
       journalText: 'anxiety_relief_journal_text',
       journalMood: 'anxiety_relief_journal_mood',
       journalDate: 'anxiety_relief_journal_date',
+      journalPromptNotes: 'anxiety_relief_journal_prompt_notes',
       trustedContact: 'anxiety_relief_trusted_contact',
       safetyPlan: 'anxiety_relief_safety_plan',
       region: 'anxiety_relief_region'
@@ -1133,6 +1143,7 @@
       saveToStorage(STORAGE_KEYS.journalText, document.getElementById('journalText').value);
       saveToStorage(STORAGE_KEYS.journalMood, document.getElementById('journalMood').value);
       saveToStorage(STORAGE_KEYS.journalDate, document.getElementById('journalDate').value);
+      saveToStorage(STORAGE_KEYS.journalPromptNotes, document.getElementById('journalPromptNotes').value);
     }
 
     function buildPrintSummary(includeCount, includeAverage) {
@@ -1178,6 +1189,7 @@
 
       const journalDate = document.getElementById('journalDate').value.trim() || new Date().toLocaleString();
       const journalMood = document.getElementById('journalMood').value.trim() || 'Not specified';
+      const journalPromptNotes = document.getElementById('journalPromptNotes').value.trim();
       const journalText = document.getElementById('journalText').value.trim() || 'No journal entry provided.';
 
       const options = {
@@ -1191,7 +1203,7 @@
 
       document.getElementById('printJournalDate').textContent = journalDate;
       document.getElementById('printJournalMood').textContent = journalMood;
-      document.getElementById('printJournalText').textContent = journalText;
+      document.getElementById('printJournalText').textContent = journalPromptNotes ? ('5-4-3-2-1 notes and extra thoughts:\n' + journalPromptNotes + '\n\nJournal:\n' + journalText) : journalText;
 
       const checkinSection = document.getElementById('printCheckinSection');
       const printCheckinList = document.getElementById('printCheckinList');
@@ -1223,6 +1235,7 @@
       document.getElementById('journalText').value = '';
       document.getElementById('journalMood').value = '';
       document.getElementById('journalDate').value = new Date().toLocaleString();
+      document.getElementById('journalPromptNotes').value = '';
       document.getElementById('trustedName').value = '';
       document.getElementById('trustedPhone').value = '';
       document.getElementById('trustedContactCall').href = '#';
@@ -1240,7 +1253,7 @@
       renderEntries();
       renderCalendar();
       updateStats();
-      document.getElementById('recommendationText').textContent = 'Start with a quick check-in, then come back here whenever you want to write freely and keep things soft and simple.';
+      document.getElementById('recommendationText').textContent = 'Start with a quick check-in, then use Ground whenever you want to settle yourself and write freely.';
     }
 
     function restoreSavedState() {
@@ -1250,11 +1263,13 @@
       const journalText = loadFromStorage(STORAGE_KEYS.journalText, '');
       const journalMood = loadFromStorage(STORAGE_KEYS.journalMood, '');
       const journalDate = loadFromStorage(STORAGE_KEYS.journalDate, new Date().toLocaleString());
+      const journalPromptNotes = loadFromStorage(STORAGE_KEYS.journalPromptNotes, '');
       const region = loadFromStorage(STORAGE_KEYS.region, 'canada');
 
       document.getElementById('journalText').value = journalText;
       document.getElementById('journalMood').value = journalMood;
       document.getElementById('journalDate').value = journalDate;
+      document.getElementById('journalPromptNotes').value = journalPromptNotes;
       document.getElementById('warningSigns').value = safetyPlan.warningSigns || '';
       document.getElementById('copingSteps').value = safetyPlan.copingSteps || '';
       document.getElementById('reasonsStaySafe').value = safetyPlan.reasonsStaySafe || '';
@@ -1280,6 +1295,7 @@
     document.getElementById('journalText').addEventListener('input', saveJournalDraft);
     document.getElementById('journalMood').addEventListener('input', saveJournalDraft);
     document.getElementById('journalDate').addEventListener('input', saveJournalDraft);
+    document.getElementById('journalPromptNotes').addEventListener('input', saveJournalDraft);
 
     window.addEventListener('afterprint', function() {
       document.body.classList.remove('print-journal');
