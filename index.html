@@ -326,6 +326,38 @@
     #printCheckinList > div { break-inside: avoid; }
 
 
+    .range-selection-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .range-selection-item {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fcfdff;
+      padding: 12px;
+    }
+
+    .range-selection-item label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .range-selection-item input[type="checkbox"] {
+      margin-top: 4px;
+      transform: scale(1.15);
+    }
+
+    .range-selection-meta {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+
     .calendar-toolbar {
       display: flex;
       justify-content: space-between;
@@ -445,11 +477,13 @@
     @media print {
       body { background: white; }
 
-      body.print-journal .container > *:not(#journalPrintSection) {
+      body.print-journal .container > *:not(#journalPrintSection),
+      body.print-calendar .container > *:not(#calendarPrintSection) {
         display: none !important;
       }
 
-      body.print-journal #journalPrintSection {
+      body.print-journal #journalPrintSection,
+      body.print-calendar #calendarPrintSection {
         display: block !important;
       }
 
@@ -493,7 +527,7 @@
       <div>
         <div class="eyebrow">Private daily support</div>
         <h1>Punch</h1>
-        <p>A gentle place to breathe, write freely, and keep private notes on this device until you choose to export them.</p>
+        <p>A softer place to score the day, write freely, and keep private notes on this device until you choose to export them.</p>
         <div class="app-badge">Local-first privacy</div>
       </div>
       <div class="hero-actions">
@@ -509,19 +543,19 @@
       <button data-section="progress" onclick="showSection('progress')">Calendar</button>
       <button data-section="panic" onclick="showSection('panic')">Help</button>
     </div>
+    <div class="scroll-hint">Tap a section below to move around like an app.</div>
 
     <section id="home" class="section">
       <div class="grid">
         <div>
           <div class="card">
             <h2>Today’s support plan</h2>
-            <p class="subtle" id="recommendationText">Start with a quick check-in, then use Ground whenever you want to settle yourself and write freely.</p>
+            <p class="subtle" id="recommendationText">Start with a quick check-in, then use Ground whenever you want a quiet place to write and settle your thoughts.</p>
             <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
               <button class="btn primary" onclick="showSection('checkin')">Start check-in</button>
               <button class="btn secondary" onclick="showSection('breathing')">Do breathing exercise</button>
             </div>
           </div>
-
         </div>
 
         <div>
@@ -560,6 +594,26 @@
         </div>
 
         <p class="footer-note">This export is intended to help a counselor, psychologist, or other professional review the user's self-recorded reflections and selected saved check-ins.</p>
+      </div>
+    </section>
+
+    <section id="calendarPrintSection" class="hidden">
+      <div class="card" style="box-shadow:none; border:1px solid #d1d5db;">
+        <h1 style="margin-top:0;">Punch</h1>
+        <p class="subtle">Calendar export for supportive review</p>
+
+        <div class="card" style="box-shadow:none; border:1px solid #d1d5db; margin-top:16px;">
+          <h2>Export details</h2>
+          <div><strong>Range:</strong> <span id="printCalendarRange"></span></div>
+          <div><strong>Total selected entries:</strong> <span id="printCalendarCount"></span></div>
+        </div>
+
+        <div class="card" id="printCalendarEntriesSection" style="box-shadow:none; border:1px solid #d1d5db; margin-top:16px;">
+          <h2>Selected calendar entries</h2>
+          <div id="printCalendarList"></div>
+        </div>
+
+        <p class="footer-note">This export is intended to help a counselor, psychologist, or other professional review the user's selected journal and check-in records from the calendar.</p>
       </div>
     </section>
 
@@ -607,30 +661,46 @@
       </div>
     </section>
 
-    
-<section id="grounding" class="section hidden">
+    <section id="grounding" class="section hidden">
       <div class="card">
-        <h2>Ground and write</h2>
-        <p class="subtle">Use these prompts if they help, then write anything else you want. Keep it light, honest, and at your own pace.</p>
+        <h2>Ground</h2>
+        <p class="subtle">Use these 5-4-3-2-1 prompts if they help, and add anything else you want to remember from this moment.</p>
 
-        <div class="alert">
-          <strong>5-4-3-2-1 writing hints</strong><br>
-          5 things you can see<br>
-          4 things you can feel<br>
-          3 things you can hear<br>
-          2 things you can smell<br>
-          1 thing you can taste
+        <div class="stack">
+          <div>
+            <label class="small-label" for="groundSee">5 things you can see</label>
+            <textarea id="groundSee" placeholder="Write what you notice around you..."></textarea>
+          </div>
+          <div>
+            <label class="small-label" for="groundFeel">4 things you can feel</label>
+            <textarea id="groundFeel" placeholder="Write what you can feel physically..."></textarea>
+          </div>
+          <div>
+            <label class="small-label" for="groundHear">3 things you can hear</label>
+            <textarea id="groundHear" placeholder="Write what you can hear..."></textarea>
+          </div>
+          <div>
+            <label class="small-label" for="groundSmell">2 things you can smell</label>
+            <textarea id="groundSmell" placeholder="Write any scents you notice..."></textarea>
+          </div>
+          <div>
+            <label class="small-label" for="groundTaste">1 thing you can taste</label>
+            <textarea id="groundTaste" placeholder="Write what you can taste..."></textarea>
+          </div>
+          <div>
+            <label class="small-label" for="groundOther">Anything else</label>
+            <textarea id="groundOther" placeholder="Write anything else you want to note down..."></textarea>
+          </div>
         </div>
 
-        <div style="margin-top:16px;">
-          <label class="small-label" for="journalPromptNotes">Use the hints or add anything else</label>
-          <textarea id="journalPromptNotes" placeholder="You can use the 5-4-3-2-1 prompts above, list small details around you, or simply write anything else you want to note down..."></textarea>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+          <button class="btn secondary" onclick="useGroundingAsJournal()">Use these notes in Journal</button>
         </div>
+      </div>
 
-        <div style="margin-top:16px;">
-          <label class="small-label" for="journalText">Journal</label>
-          <textarea id="journalText" placeholder="Write freely here..."></textarea>
-        </div>
+      <div class="card">
+        <h2>Journal</h2>
+        <textarea id="journalText" placeholder="Write anything you want here..."></textarea>
 
         <div class="two-col" style="margin-top:12px;">
           <div>
@@ -643,28 +713,14 @@
           </div>
         </div>
 
-        <div style="margin-top:16px;">
-          <label class="small-label">Include saved check-in records in export</label>
-          <details class="export-dropdown">
-            <summary>Select what to include</summary>
-            <div class="export-dropdown-menu">
-              <label><input type="checkbox" id="includeCheckinLevel" checked /> Daily score</label>
-              <label><input type="checkbox" id="includeCheckinTags" checked /> Tags</label>
-              <label><input type="checkbox" id="includeCheckinTriggers" checked /> Triggers or context</label>
-              <label><input type="checkbox" id="includeCheckinThoughts" checked /> Thoughts saved with each check-in</label>
-              <label><input type="checkbox" id="includeCheckinCount" checked /> Total check-ins</label>
-              <label><input type="checkbox" id="includeCheckinAverage" checked /> Average daily score</label>
-            </div>
-          </details>
-        </div>
-
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
-          <button class="btn primary" id="exportPdfButton" onclick="exportJournalPdf()">Export journal to PDF</button>
+          <button class="btn primary" type="button" id="saveJournalCalendarButton" onclick="saveJournalToCalendar()">Save journal to Calendar</button>
+          <button class="btn secondary" type="button" id="exportPdfButton" onclick="exportJournalPdf()">Export journal to PDF</button>
         </div>
-        <div class="footer-note">Export when you want a clean record to share with a psychologist or counselor.</div>
+        <div id="journalMessage"></div>
+        <div class="footer-note">Use export when you want a clean page to share with a counselor or psychologist.</div>
       </div>
     </section>
-
 
     <section id="progress" class="section hidden">
       <div class="card">
@@ -672,6 +728,28 @@
         <p class="subtle">Open the month view, click any date, and read all the check-ins saved on that day.</p>
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
           <button class="btn secondary" onclick="clearAllSavedData()">Clear all private data</button>
+        </div>
+
+        <div class="card" style="box-shadow:none; margin-bottom:14px;">
+          <h2 style="font-size:1.05rem;">Export from Calendar</h2>
+          <p class="subtle">Choose a date range to export saved check-ins and journal entries.</p>
+          <div class="two-col">
+            <div>
+              <label class="small-label" for="exportStartDate">Start date</label>
+              <input id="exportStartDate" type="date" />
+            </div>
+            <div>
+              <label class="small-label" for="exportEndDate">End date</label>
+              <input id="exportEndDate" type="date" />
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+            <button class="btn secondary" type="button" onclick="loadRangeSelection()">Load entries in range</button>
+            <button class="btn primary" type="button" onclick="exportCalendarRangePdf()">Export selected range to PDF</button>
+          </div>
+          <div id="calendarExportMessage"></div>
+          <div id="rangeSelectionSummary" class="footer-note"></div>
+          <div id="rangeSelectionList" class="range-selection-list"></div>
         </div>
 
         <div class="calendar-toolbar">
@@ -778,6 +856,11 @@
           </div>
           <div id="safetyPlanMessage"></div>
         </div>
+
+        <div class="card" style="margin-top:18px; box-shadow:none;">
+          <h2 style="font-size:1.15rem;">Privacy</h2>
+          <p class="subtle">Your notes, journals, and saved check-ins stay in this browser on this device unless you choose to export them. If you clear browser storage or use a different device, those records will not follow you automatically.</p>
+        </div>
       </div>
     </section>
   </div>
@@ -788,16 +871,19 @@
       journalText: 'anxiety_relief_journal_text',
       journalMood: 'anxiety_relief_journal_mood',
       journalDate: 'anxiety_relief_journal_date',
-      journalPromptNotes: 'anxiety_relief_journal_prompt_notes',
+      journalEntries: 'punch_journal_entries',
       trustedContact: 'anxiety_relief_trusted_contact',
       safetyPlan: 'anxiety_relief_safety_plan',
       region: 'anxiety_relief_region'
     };
 
     let checkIns = [];
+    let journalEntries = [];
     let trustedContact = { name: '', phone: '' };
     let currentCalendarDate = new Date();
     let selectedDateKey = '';
+    let editingCheckInId = null;
+    let editingJournalId = null;
 
     const regionSupport = {
       canada: { summary: 'Canada selected. Emergency: 911. Crisis line: 988.', emergencyLabel: 'Call 911', emergencyHref: 'tel:911', crisisLabel: 'Call 988', crisisHref: 'tel:988', textLabel: 'Text 988', textHref: 'sms:988' },
@@ -857,26 +943,43 @@
       const thoughts = document.getElementById('momentThoughts').value.trim();
 
       const now = new Date();
-      const entry = {
-        date: now.toLocaleString(),
-        dateKey: getLocalDateKey(now),
-        level: level,
-        tags: tags,
-        trigger: trigger,
-        thoughts: thoughts
-      };
+      const msg = document.getElementById('checkinMessage');
 
-      checkIns.unshift(entry);
+      if (editingCheckInId) {
+        const existing = checkIns.find(function(item) { return item.id === editingCheckInId; });
+        if (existing) {
+          existing.level = level;
+          existing.tags = tags;
+          existing.trigger = trigger;
+          existing.thoughts = thoughts;
+          existing.date = now.toLocaleString();
+          existing.dateKey = getLocalDateKey(now);
+          selectedDateKey = existing.dateKey;
+        }
+        editingCheckInId = null;
+        document.querySelector('#checkin .btn.primary').textContent = 'Save check-in';
+        msg.innerHTML = '<div class="alert">Check-in updated privately in this browser.</div>';
+      } else {
+        const entry = {
+          id: 'checkin-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+          date: now.toLocaleString(),
+          dateKey: getLocalDateKey(now),
+          level: level,
+          tags: tags,
+          trigger: trigger,
+          thoughts: thoughts
+        };
+        checkIns.unshift(entry);
+        selectedDateKey = entry.dateKey;
+        msg.innerHTML = '<div class="alert">Check-in saved privately in this browser.</div>';
+      }
+
       saveToStorage(STORAGE_KEYS.checkIns, checkIns);
-      selectedDateKey = '';
       currentCalendarDate = new Date();
-      renderEntries();
+      renderEntries(selectedDateKey);
       renderCalendar();
       updateStats();
       updateRecommendation(level);
-
-      const msg = document.getElementById('checkinMessage');
-      msg.innerHTML = '<div class="alert">Check-in saved privately in this browser.</div>';
       showSection('progress');
     }
 
@@ -887,6 +990,8 @@
       document.getElementById('triggerInput').value = '';
       document.getElementById('momentThoughts').value = '';
       document.getElementById('checkinMessage').innerHTML = '';
+      editingCheckInId = null;
+      document.querySelector('#checkin .btn.primary').textContent = 'Save check-in';
     }
 
     function updateRecommendation(level) {
@@ -902,13 +1007,28 @@
     }
 
     function normalizeCheckIn(entry) {
-      if (entry.dateKey) return entry;
-      let dateKey = '';
+      if (entry.dateKey && entry.id) return entry;
+      let dateKey = entry.dateKey || '';
       const parsed = new Date(entry.date);
-      if (!Number.isNaN(parsed.getTime())) {
+      if (!dateKey && !Number.isNaN(parsed.getTime())) {
         dateKey = getLocalDateKey(parsed);
       }
-      return Object.assign({}, entry, { dateKey: dateKey });
+      return Object.assign({}, entry, { dateKey: dateKey, id: entry.id || ('checkin-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8)) });
+    }
+
+    function normalizeJournalEntry(entry) {
+      if (entry.dateKey && entry.id) return entry;
+      let dateKey = entry.dateKey || '';
+      const parsed = new Date(entry.date);
+      if (!dateKey && !Number.isNaN(parsed.getTime())) {
+        dateKey = getLocalDateKey(parsed);
+      }
+      return Object.assign({}, entry, {
+        dateKey: dateKey,
+        id: entry.id || ('journal-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8)),
+        mood: entry.mood || '',
+        text: entry.text || ''
+      });
     }
 
     function getLocalDateKey(dateObj) {
@@ -931,10 +1051,23 @@
       });
     }
 
+    function getCheckInsForDate(dateKey) {
+      return checkIns.filter(function(entry) { return entry.dateKey === dateKey; });
+    }
+
+    function getJournalEntriesForDate(dateKey) {
+      return journalEntries.filter(function(entry) { return entry.dateKey === dateKey; });
+    }
+
     function getEntriesForDate(dateKey) {
-      return checkIns.filter(function(entry) {
-        return entry.dateKey === dateKey;
+      const combined = [];
+      getCheckInsForDate(dateKey).forEach(function(entry) {
+        combined.push(Object.assign({ entryType: 'checkin' }, entry));
       });
+      getJournalEntriesForDate(dateKey).forEach(function(entry) {
+        combined.push(Object.assign({ entryType: 'journal' }, entry));
+      });
+      return combined.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
     }
 
     function renderEntries(dateKey) {
@@ -945,30 +1078,39 @@
 
       if (!dateKey) {
         title.textContent = 'Selected day';
-        subtitle.textContent = 'Click a date on the calendar to see every saved check-in from that day.';
+        subtitle.textContent = 'Click a date on the calendar to see every saved check-in and journal saved on that day.';
         wrap.innerHTML = '<p class="subtle">No date selected yet.</p>';
         return;
       }
 
       const dayEntries = getEntriesForDate(dateKey);
       title.textContent = formatDateKey(dateKey);
-      subtitle.textContent = dayEntries.length ? 'All saved check-ins for this day are listed below.' : 'No saved check-ins for this day.';
+      subtitle.textContent = dayEntries.length ? 'All saved check-ins and journals for this day are listed below.' : 'No saved entries for this day.';
 
       if (dayEntries.length === 0) {
-        wrap.innerHTML = '<p class="subtle">No saved check-ins for this day.</p>';
+        wrap.innerHTML = '<p class="subtle">No saved entries for this day.</p>';
         return;
       }
 
       dayEntries.forEach(function(entry, index) {
         const div = document.createElement('div');
         div.className = 'entry';
-        div.innerHTML =
-          '<strong>Check-in ' + (dayEntries.length - index) + '</strong><br>' +
-          'Saved at: ' + entry.date + '<br>' +
-          'Score: ' + entry.level + '/10<br>' +
-          'Tags: ' + (entry.tags.length ? entry.tags.join(', ') : 'None added') + '<br>' +
-          'Trigger or context: ' + (entry.trigger ? entry.trigger : 'None added') + '<br>' +
-          'Thoughts: ' + (entry.thoughts ? entry.thoughts : 'None added');
+        let html = '<strong>' + (entry.entryType === 'journal' ? 'Journal ' : 'Check-in ') + (dayEntries.length - index) + '</strong><br>' +
+          'Saved at: ' + entry.date + '<br>';
+
+        if (entry.entryType === 'checkin') {
+          html += 'Score: ' + entry.level + '/10<br>' +
+            'Tags: ' + (entry.tags.length ? entry.tags.join(', ') : 'None added') + '<br>' +
+            'Trigger or context: ' + (entry.trigger ? entry.trigger : 'None added') + '<br>' +
+            'Thoughts: ' + (entry.thoughts ? entry.thoughts : 'None added');
+          html += '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;"><button class="btn secondary" onclick="editCheckIn(\'' + entry.id + '\')">Edit check-in</button></div>';
+        } else {
+          html += 'Mood: ' + (entry.mood ? entry.mood : 'Not specified') + '<br>' +
+            'Journal: ' + (entry.text ? entry.text : 'No text added');
+          html += '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;"><button class="btn secondary" onclick="editJournalEntry(\'' + entry.id + '\')">Edit journal</button></div>';
+        }
+
+        div.innerHTML = html;
         wrap.appendChild(div);
       });
     }
@@ -1013,7 +1155,8 @@
 
         const dateKey = getLocalDateKey(cellDate);
         const dayEntries = getEntriesForDate(dateKey);
-        const avgScore = dayEntries.length ? (dayEntries.reduce(function(sum, entry) { return sum + entry.level; }, 0) / dayEntries.length).toFixed(1) : '';
+        const dayCheckIns = getCheckInsForDate(dateKey);
+        const avgScore = dayCheckIns.length ? (dayCheckIns.reduce(function(sum, entry) { return sum + entry.level; }, 0) / dayCheckIns.length).toFixed(1) : '';
 
         if (dayEntries.length) {
           cell.classList.add('has-entry');
@@ -1025,7 +1168,7 @@
         cell.innerHTML =
           '<div class="calendar-day-number">' + cellDate.getDate() + '</div>' +
           '<div class="calendar-day-meta">' +
-            (dayEntries.length ? '<div class="calendar-day-entries">' + dayEntries.length + ' saved</div><div>Avg ' + avgScore + '/10</div>' : '<div class="calendar-day-entries">No notes</div>') +
+            (dayEntries.length ? '<div class="calendar-day-entries">' + dayEntries.length + ' saved</div><div>' + (dayCheckIns.length ? 'Avg ' + avgScore + '/10' : 'Journal only') + '</div>' : '<div class="calendar-day-entries">No notes</div>') +
           '</div>';
 
         cell.addEventListener('click', function() {
@@ -1035,6 +1178,7 @@
           }
           renderCalendar();
           renderEntries(selectedDateKey);
+          updateDefaultExportRange();
         });
 
         grid.appendChild(cell);
@@ -1138,11 +1282,118 @@
       msg.innerHTML = '<div class="alert">Safety plan saved privately in this browser.</div>';
     }
 
+    
+    function useGroundingAsJournal() {
+      const parts = [
+        ['5 things you can see', document.getElementById('groundSee').value.trim()],
+        ['4 things you can feel', document.getElementById('groundFeel').value.trim()],
+        ['3 things you can hear', document.getElementById('groundHear').value.trim()],
+        ['2 things you can smell', document.getElementById('groundSmell').value.trim()],
+        ['1 thing you can taste', document.getElementById('groundTaste').value.trim()],
+        ['Anything else', document.getElementById('groundOther').value.trim()]
+      ].filter(function(item) { return item[1]; });
+
+      if (!parts.length) {
+        return;
+      }
+
+      const journal = document.getElementById('journalText');
+      const block = parts.map(function(item) {
+        return item[0] + ': ' + item[1];
+      }).join('\n');
+
+      journal.value = journal.value ? journal.value + '\n\n' + block : block;
+      saveJournalDraft();
+    }
+
     function saveJournalDraft() {
       saveToStorage(STORAGE_KEYS.journalText, document.getElementById('journalText').value);
       saveToStorage(STORAGE_KEYS.journalMood, document.getElementById('journalMood').value);
       saveToStorage(STORAGE_KEYS.journalDate, document.getElementById('journalDate').value);
-      saveToStorage(STORAGE_KEYS.journalPromptNotes, document.getElementById('journalPromptNotes').value);
+    }
+ 
+function saveJournalToCalendar() {
+  saveJournalDraft();
+  const textValue = document.getElementById('journalText').value.trim();
+  const moodValue = document.getElementById('journalMood').value.trim();
+  const dateValue = document.getElementById('journalDate').value.trim() || new Date().toLocaleString();
+  const msg = document.getElementById('journalMessage');
+
+  if (!textValue) {
+    msg.innerHTML = '<div class="alert danger">Please write something in the journal before saving it to Calendar.</div>';
+    return;
+  }
+
+  const parsed = new Date(dateValue);
+  const now = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+
+  if (editingJournalId) {
+    const existing = journalEntries.find(function(item) { return item.id === editingJournalId; });
+    if (existing) {
+      existing.text = textValue;
+      existing.mood = moodValue;
+      existing.date = now.toLocaleString();
+      existing.dateKey = getLocalDateKey(now);
+      selectedDateKey = existing.dateKey;
+    }
+    editingJournalId = null;
+    document.getElementById('saveJournalCalendarButton').textContent = 'Save journal to Calendar';
+    msg.innerHTML = '<div class="alert">Journal updated in Calendar. Fields cleared.</div>';
+  } else {
+    const entry = {
+      id: 'journal-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+      date: now.toLocaleString(),
+      dateKey: getLocalDateKey(now),
+      mood: moodValue,
+      text: textValue
+    };
+    journalEntries.unshift(entry);
+    selectedDateKey = entry.dateKey;
+    msg.innerHTML = '<div class="alert">Journal saved to Calendar. Fields cleared.</div>';
+  }
+
+  saveToStorage(STORAGE_KEYS.journalEntries, journalEntries);
+  
+  // ✅ Clear the journal fields
+  document.getElementById('journalText').value = '';
+  document.getElementById('journalMood').value = '';
+  document.getElementById('journalDate').value = new Date().toLocaleString();
+  
+  // Clear any editing state
+  editingJournalId = null;
+  document.getElementById('saveJournalCalendarButton').textContent = 'Save journal to Calendar';
+
+  currentCalendarDate = new Date(now.getFullYear(), now.getMonth(), 1);
+  renderCalendar();
+  renderEntries(selectedDateKey);
+  updateDefaultExportRange();
+  showSection('progress');
+}
+
+       function editCheckIn(id) {
+      const entry = checkIns.find(function(item) { return item.id === id; });
+      if (!entry) return;
+      editingCheckInId = id;
+      document.getElementById('anxietyRange').value = entry.level;
+      updateLevelLabel();
+      document.getElementById('tagInput').value = entry.tags.join(', ');
+      document.getElementById('triggerInput').value = entry.trigger || '';
+      document.getElementById('momentThoughts').value = entry.thoughts || '';
+      document.querySelector('#checkin .btn.primary').textContent = 'Update check-in';
+      document.getElementById('checkinMessage').innerHTML = '<div class="alert">Editing a saved check-in. Save when you are ready.</div>';
+      showSection('checkin');
+    }
+
+    function editJournalEntry(id) {
+      const entry = journalEntries.find(function(item) { return item.id === id; });
+      if (!entry) return;
+      editingJournalId = id;
+      document.getElementById('journalText').value = entry.text || '';
+      document.getElementById('journalMood').value = entry.mood || '';
+      document.getElementById('journalDate').value = entry.date || new Date().toLocaleString();
+      document.getElementById('saveJournalCalendarButton').textContent = 'Update journal in Calendar';
+      document.getElementById('journalMessage').innerHTML = '<div class="alert">Editing a saved journal. Save when you are ready.</div>';
+      showSection('grounding');
     }
 
     function buildPrintSummary(includeCount, includeAverage) {
@@ -1157,14 +1408,25 @@
       return parts.join('');
     }
 
-    function buildCheckInPrintHtml(options) {
-      if (checkIns.length === 0) {
+    function buildCheckInPrintHtml(options, entries) {
+      const sourceEntries = entries || checkIns;
+      if (sourceEntries.length === 0) {
         return '<div>No saved check-ins available.</div>';
       }
 
-      return checkIns.map(function(entry, index) {
+      return sourceEntries.map(function(entry, index) {
+        if (entry.entryType === 'journal' || entry.text !== undefined && entry.level === undefined) {
+          let html = '<div style="border:1px solid #d1d5db; border-radius:12px; padding:12px; margin-bottom:12px;">';
+          html += '<div><strong>Journal ' + (sourceEntries.length - index) + '</strong></div>';
+          html += '<div><strong>Date:</strong> ' + entry.date + '</div>';
+          html += '<div><strong>Mood:</strong> ' + (entry.mood ? entry.mood : 'Not specified') + '</div>';
+          html += '<div><strong>Journal:</strong> ' + (entry.text ? entry.text : 'No text added') + '</div>';
+          html += '</div>';
+          return html;
+        }
+
         let html = '<div style="border:1px solid #d1d5db; border-radius:12px; padding:12px; margin-bottom:12px;">';
-        html += '<div><strong>Check-in ' + (checkIns.length - index) + '</strong></div>';
+        html += '<div><strong>Check-in ' + (sourceEntries.length - index) + '</strong></div>';
         html += '<div><strong>Date:</strong> ' + entry.date + '</div>';
         if (options.includeLevel) {
           html += '<div><strong>Daily score:</strong> ' + entry.level + '/10</div>';
@@ -1183,41 +1445,228 @@
       }).join('');
     }
 
-    function exportJournalPdf() {
-      saveJournalDraft();
-
-      const journalDate = document.getElementById('journalDate').value.trim() || new Date().toLocaleString();
-      const journalMood = document.getElementById('journalMood').value.trim() || 'Not specified';
-      const journalPromptNotes = document.getElementById('journalPromptNotes').value.trim();
-      const journalText = document.getElementById('journalText').value.trim() || 'No journal entry provided.';
-
-      const options = {
-        includeLevel: document.getElementById('includeCheckinLevel').checked,
-        includeTags: document.getElementById('includeCheckinTags').checked,
-        includeTriggers: document.getElementById('includeCheckinTriggers').checked,
-        includeThoughts: document.getElementById('includeCheckinThoughts').checked,
-        includeCount: document.getElementById('includeCheckinCount').checked,
-        includeAverage: document.getElementById('includeCheckinAverage').checked
-      };
-
-      document.getElementById('printJournalDate').textContent = journalDate;
-      document.getElementById('printJournalMood').textContent = journalMood;
-      document.getElementById('printJournalText').textContent = journalPromptNotes ? ('5-4-3-2-1 notes and extra thoughts:\n' + journalPromptNotes + '\n\nJournal:\n' + journalText) : journalText;
-
-      const checkinSection = document.getElementById('printCheckinSection');
-      const printCheckinList = document.getElementById('printCheckinList');
-      const includeAny = options.includeLevel || options.includeTags || options.includeTriggers || options.includeThoughts || options.includeCount || options.includeAverage;
-
-      if (!includeAny) {
-        checkinSection.style.display = 'none';
-      } else {
-        checkinSection.style.display = 'block';
-        printCheckinList.innerHTML = buildPrintSummary(options.includeCount, options.includeAverage) + buildCheckInPrintHtml(options);
+    function buildCalendarPrintHtml(entries) {
+      if (!entries || !entries.length) {
+        return '<div>No selected calendar entries available.</div>';
       }
 
-      document.body.classList.add('print-journal');
-      setTimeout(function() { window.print(); }, 100);
+      return entries.map(function(entry, index) {
+        let html = '<div style="border:1px solid #d1d5db; border-radius:12px; padding:12px; margin-bottom:12px;">';
+        if (entry.entryType === 'journal') {
+          html += '<div><strong>Journal ' + (entries.length - index) + '</strong></div>';
+          html += '<div><strong>Date:</strong> ' + entry.date + '</div>';
+          html += '<div><strong>Mood:</strong> ' + (entry.mood ? entry.mood : 'Not specified') + '</div>';
+          html += '<div><strong>Journal:</strong> ' + (entry.text ? entry.text : 'No text added') + '</div>';
+        } else {
+          html += '<div><strong>Check-in ' + (entries.length - index) + '</strong></div>';
+          html += '<div><strong>Date:</strong> ' + entry.date + '</div>';
+          html += '<div><strong>Daily score:</strong> ' + entry.level + '/10</div>';
+          html += '<div><strong>Tags:</strong> ' + (entry.tags && entry.tags.length ? entry.tags.join(', ') : 'None added') + '</div>';
+          html += '<div><strong>Trigger or context:</strong> ' + (entry.trigger ? entry.trigger : 'None added') + '</div>';
+          html += '<div><strong>Thoughts:</strong> ' + (entry.thoughts ? entry.thoughts : 'None added') + '</div>';
+        }
+        html += '</div>';
+        return html;
+      }).join('');
     }
+
+    function getEntriesInRange(startKey, endKey) {
+      return getAllCalendarEntries().filter(function(entry) {
+        return entry.dateKey >= startKey && entry.dateKey <= endKey;
+      }).sort(function(a, b) { return new Date(a.date) - new Date(b.date); });
+    }
+
+    function getAllCalendarEntries() {
+      const all = [];
+      checkIns.forEach(function(entry) { all.push(Object.assign({ entryType: 'checkin' }, entry)); });
+      journalEntries.forEach(function(entry) { all.push(Object.assign({ entryType: 'journal' }, entry)); });
+      return all;
+    }
+
+    function buildRangeSelectionItem(entry) {
+      const typeLabel = entry.entryType === 'journal' ? 'Journal' : 'Check-in';
+      let details = '';
+      if (entry.entryType === 'journal') {
+        details += '<div class="range-selection-meta"><strong>Mood:</strong> ' + (entry.mood || 'Not specified') + '</div>';
+        details += '<div class="range-selection-meta">' + (entry.text || 'No text added') + '</div>';
+      } else {
+        details += '<div class="range-selection-meta"><strong>Score:</strong> ' + entry.level + '/10</div>';
+        details += '<div class="range-selection-meta"><strong>Tags:</strong> ' + (entry.tags && entry.tags.length ? entry.tags.join(', ') : 'None added') + '</div>';
+        details += '<div class="range-selection-meta"><strong>Trigger:</strong> ' + (entry.trigger || 'None added') + '</div>';
+        details += '<div class="range-selection-meta">' + (entry.thoughts || 'No thoughts added') + '</div>';
+      }
+      return '<div class="range-selection-item"><label><input type="checkbox" class="range-entry-checkbox" data-entry-id="' + entry.id + '" checked /><div><strong>' + typeLabel + '</strong> · ' + entry.date + details + '</div></label></div>';
+    }
+
+    function loadRangeSelection() {
+      const startDate = document.getElementById('exportStartDate').value;
+      const endDate = document.getElementById('exportEndDate').value;
+      const msg = document.getElementById('calendarExportMessage');
+      const summary = document.getElementById('rangeSelectionSummary');
+      const list = document.getElementById('rangeSelectionList');
+      if (!startDate || !endDate) {
+        msg.innerHTML = '<div class="alert danger">Please choose both a start date and an end date.</div>';
+        summary.textContent = '';
+        list.innerHTML = '';
+        return [];
+      }
+      if (startDate > endDate) {
+        msg.innerHTML = '<div class="alert danger">The start date must be on or before the end date.</div>';
+        summary.textContent = '';
+        list.innerHTML = '';
+        return [];
+      }
+      const rangeEntries = getEntriesInRange(startDate, endDate);
+      if (!rangeEntries.length) {
+        msg.innerHTML = '<div class="alert danger">No saved check-ins or journals were found in this date range.</div>';
+        summary.textContent = '';
+        list.innerHTML = '';
+        return [];
+      }
+      msg.innerHTML = '<div class="alert">Loaded entries in the selected range. Uncheck anything you do not want to include.</div>';
+      summary.textContent = rangeEntries.length + ' item(s) found between ' + startDate + ' and ' + endDate + '.';
+      list.innerHTML = rangeEntries.map(buildRangeSelectionItem).join('');
+      return rangeEntries;
+    }
+
+    function getSelectedRangeEntries(fallbackEntries) {
+      const selectedIds = Array.from(document.querySelectorAll('.range-entry-checkbox:checked')).map(function(box) { return box.getAttribute('data-entry-id'); });
+      if (!selectedIds.length) {
+        return [];
+      }
+      return (fallbackEntries || getAllCalendarEntries()).filter(function(entry) { return selectedIds.indexOf(entry.id) !== -1; });
+    }
+
+    function triggerPrintView(mode) {
+      document.body.classList.remove('print-journal', 'print-calendar');
+      document.body.classList.add(mode === 'calendar' ? 'print-calendar' : 'print-journal');
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          window.print();
+        });
+      });
+    }
+
+    function exportCalendarRangePdf() {
+      const startDate = document.getElementById('exportStartDate').value;
+      const endDate = document.getElementById('exportEndDate').value;
+      const msg = document.getElementById('calendarExportMessage');
+      let rangeEntries = getEntriesInRange(startDate, endDate);
+
+      if (!startDate || !endDate) {
+        msg.innerHTML = '<div class="alert danger">Please choose both a start date and an end date.</div>';
+        return;
+      }
+      if (startDate > endDate) {
+        msg.innerHTML = '<div class="alert danger">The start date must be on or before the end date.</div>';
+        return;
+      }
+      if (!document.querySelector('.range-entry-checkbox')) {
+        rangeEntries = loadRangeSelection();
+      }
+      if (!rangeEntries.length) {
+        msg.innerHTML = '<div class="alert danger">No saved check-ins or journals were found in this date range.</div>';
+        return;
+      }
+
+      const selectedEntries = getSelectedRangeEntries(rangeEntries);
+      if (!selectedEntries.length) {
+        msg.innerHTML = '<div class="alert danger">Please check at least one journal or check-in to export.</div>';
+        return;
+      }
+
+      const printHtml = buildCalendarPrintHtml(selectedEntries);
+      const printWindow = window.open('', '_blank', 'width=900,height=700');
+
+      if (!printWindow) {
+        msg.innerHTML = '<div class="alert danger">Please allow pop-ups so the Calendar export can open the print preview.</div>';
+        return;
+      }
+
+      const style = '<style>' +
+        'body{font-family:Arial,sans-serif;padding:24px;color:#1f2937;line-height:1.5;background:#fff;}' +
+        '.card{border:1px solid #d1d5db;border-radius:20px;padding:20px;margin-bottom:16px;}' +
+        'h1{margin:0 0 8px 0;font-size:2rem;}' +
+        '.subtle{color:#6b7280;margin:0 0 12px 0;}' +
+        '.footer-note{font-size:0.92rem;color:#6b7280;margin-top:14px;}' +
+        '</style>';
+
+      printWindow.document.open();
+      printWindow.document.write(
+        '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Punch Calendar Export</title>' +
+        style +
+        '</head><body>' +
+        '<div class="card">' +
+        '<h1>Punch</h1>' +
+        '<p class="subtle">Calendar export for supportive review</p>' +
+        '<div class="card"><h2>Export details</h2>' +
+        '<div><strong>Range:</strong> ' + startDate + ' to ' + endDate + '</div>' +
+        '<div><strong>Total selected entries:</strong> ' + selectedEntries.length + '</div>' +
+        '</div>' +
+        '<div class="card"><h2>Selected calendar entries</h2>' +
+        printHtml +
+        '</div>' +
+        '<p class="footer-note">This export is intended to help a counselor, psychologist, or other professional review the selected journal and check-in records from the calendar.</p>' +
+        '</div>' +
+        '</body></html>'
+      );
+      printWindow.document.close();
+
+      msg.innerHTML = '<div class="alert">Preparing PDF for the selected range.</div>';
+      printWindow.focus();
+      setTimeout(function() { printWindow.print(); }, 150);
+    }
+
+  function exportJournalPdf() {
+  saveJournalDraft();
+
+  const journalDate = document.getElementById('journalDate').value.trim() || new Date().toLocaleString();
+  const journalMood = document.getElementById('journalMood').value.trim() || 'Not specified';
+  const journalText = document.getElementById('journalText').value.trim() || 'No journal entry provided.';
+
+  const style = `
+    <style>
+      body { font-family: Arial, sans-serif; padding: 24px; color: #1f2937; line-height: 1.5; background: #fff; }
+      .card { border: 1px solid #d1d5db; border-radius: 20px; padding: 20px; margin-bottom: 16px; }
+      h1 { margin: 0 0 8px 0; font-size: 2rem; }
+      .subtle { color: #6b7280; margin: 0 0 12px 0; }
+      .footer-note { font-size: 0.92rem; color: #6b7280; margin-top: 14px; }
+    </style>
+  `;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head><meta charset="UTF-8"><title>Punch Journal Export</title>${style}</head>
+      <body>
+        <div class="card">
+          <h1>Punch</h1>
+          <p class="subtle">Journal export for supportive review</p>
+          <div class="card">
+            <h2>Entry details</h2>
+            <div><strong>Date:</strong> ${journalDate}</div>
+            <div><strong>Mood:</strong> ${journalMood}</div>
+          </div>
+          <div class="card">
+            <h2>Journal entry</h2>
+            <div style="white-space:pre-wrap;">${journalText.replace(/</g, '&lt;')}</div>
+          </div>
+          <p class="footer-note">This export is intended to help a counselor, psychologist, or other professional review the user's self-recorded reflections.</p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    alert('Please allow pop-ups to export the PDF.');
+    return;
+  }
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+  printWindow.print();
+}
 
     function clearAllSavedData() {
       if (!confirm('Clear all private data saved in this browser for this app?')) {
@@ -1229,12 +1678,14 @@
       });
 
       checkIns = [];
+      journalEntries = [];
       trustedContact = { name: '', phone: '' };
 
       document.getElementById('journalText').value = '';
       document.getElementById('journalMood').value = '';
       document.getElementById('journalDate').value = new Date().toLocaleString();
-      document.getElementById('journalPromptNotes').value = '';
+      document.getElementById('journalMessage').innerHTML = '';
+      document.getElementById('saveJournalCalendarButton').textContent = 'Save journal to Calendar';
       document.getElementById('trustedName').value = '';
       document.getElementById('trustedPhone').value = '';
       document.getElementById('trustedContactCall').href = '#';
@@ -1250,25 +1701,39 @@
       selectedDateKey = '';
       currentCalendarDate = new Date();
       renderEntries();
+      document.getElementById('calendarExportMessage').innerHTML = '';
       renderCalendar();
       updateStats();
-      document.getElementById('recommendationText').textContent = 'Start with a quick check-in, then use Ground whenever you want to settle yourself and write freely.';
+      document.getElementById('recommendationText').textContent = 'Start with a quick check-in, then come back here whenever you want to write freely and keep things soft and simple.';
+    }
+
+    function updateDefaultExportRange() {
+      const dateInputStart = document.getElementById('exportStartDate');
+      const dateInputEnd = document.getElementById('exportEndDate');
+      if (!dateInputStart || !dateInputEnd) return;
+      if (selectedDateKey) {
+        dateInputStart.value = selectedDateKey;
+        dateInputEnd.value = selectedDateKey;
+      } else {
+        const todayKey = getLocalDateKey(new Date());
+        if (!dateInputStart.value) dateInputStart.value = todayKey;
+        if (!dateInputEnd.value) dateInputEnd.value = todayKey;
+      }
     }
 
     function restoreSavedState() {
       checkIns = loadFromStorage(STORAGE_KEYS.checkIns, []).map(normalizeCheckIn);
+      journalEntries = loadFromStorage(STORAGE_KEYS.journalEntries, []).map(normalizeJournalEntry);
       trustedContact = loadFromStorage(STORAGE_KEYS.trustedContact, { name: '', phone: '' });
       const safetyPlan = loadFromStorage(STORAGE_KEYS.safetyPlan, { warningSigns: '', copingSteps: '', reasonsStaySafe: '' });
       const journalText = loadFromStorage(STORAGE_KEYS.journalText, '');
       const journalMood = loadFromStorage(STORAGE_KEYS.journalMood, '');
       const journalDate = loadFromStorage(STORAGE_KEYS.journalDate, new Date().toLocaleString());
-      const journalPromptNotes = loadFromStorage(STORAGE_KEYS.journalPromptNotes, '');
       const region = loadFromStorage(STORAGE_KEYS.region, 'canada');
 
       document.getElementById('journalText').value = journalText;
       document.getElementById('journalMood').value = journalMood;
       document.getElementById('journalDate').value = journalDate;
-      document.getElementById('journalPromptNotes').value = journalPromptNotes;
       document.getElementById('warningSigns').value = safetyPlan.warningSigns || '';
       document.getElementById('copingSteps').value = safetyPlan.copingSteps || '';
       document.getElementById('reasonsStaySafe').value = safetyPlan.reasonsStaySafe || '';
@@ -1287,6 +1752,7 @@
       selectedDateKey = '';
       currentCalendarDate = new Date();
       renderEntries();
+      document.getElementById('calendarExportMessage').innerHTML = '';
       renderCalendar();
       updateStats();
     }
@@ -1294,10 +1760,9 @@
     document.getElementById('journalText').addEventListener('input', saveJournalDraft);
     document.getElementById('journalMood').addEventListener('input', saveJournalDraft);
     document.getElementById('journalDate').addEventListener('input', saveJournalDraft);
-    document.getElementById('journalPromptNotes').addEventListener('input', saveJournalDraft);
 
     window.addEventListener('afterprint', function() {
-      document.body.classList.remove('print-journal');
+      document.body.classList.remove('print-journal', 'print-calendar');
     });
 
     document.getElementById('journalDate').value = new Date().toLocaleString();
