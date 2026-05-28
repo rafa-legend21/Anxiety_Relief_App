@@ -474,6 +474,134 @@
       padding: 0 6px;
     }
 
+
+
+    .support-disclaimer {
+      margin: 12px 0 16px;
+      font-size: 0.92rem;
+    }
+
+    .support-disclaimer strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .quick-ground-card textarea {
+      min-height: 74px;
+    }
+
+    .safety-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .safety-choice-grid .btn {
+      width: 100%;
+    }
+
+    .soft-note {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+
+    .after-save-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .support-list {
+      margin: 10px 0 0;
+      padding-left: 20px;
+      color: var(--text);
+    }
+
+    .support-list li {
+      margin-bottom: 6px;
+    }
+
+    .comfort-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    body.large-text {
+      font-size: 18px;
+    }
+
+    body.large-text .container {
+      max-width: 500px;
+    }
+
+    body.large-text input,
+    body.large-text select,
+    body.large-text textarea,
+    body.large-text button,
+    body.large-text .btn {
+      font-size: 1.08rem;
+    }
+
+    body.reduce-motion *,
+    body.reduce-motion *::before,
+    body.reduce-motion *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+
+    body.dark-mode {
+      --bg: #111827;
+      --card: #1f2937;
+      --text: #f9fafb;
+      --muted: #cbd5e1;
+      --border: #374151;
+      --primary: #e5e7eb;
+      --soft: #111827;
+      --accent: #334155;
+      --shell: rgba(31, 41, 55, 0.88);
+      background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+    }
+
+    body.dark-mode .panic-btn,
+    body.dark-mode .btn.primary,
+    body.dark-mode .nav button.active {
+      color: #111827;
+    }
+
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea,
+    body.dark-mode .export-dropdown,
+    body.dark-mode .range-selection-item,
+    body.dark-mode .calendar-day {
+      background: #111827;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    body.dark-mode .nav {
+      background: rgba(17, 24, 39, 0.94);
+    }
+
+    body.dark-mode .alert {
+      background: #172554;
+      border-color: #1d4ed8;
+      color: #dbeafe;
+    }
+
+    body.dark-mode .alert.danger {
+      background: #450a0a;
+      border-color: #7f1d1d;
+      color: #fee2e2;
+    }
+
     @media print {
       body { background: white; }
 
@@ -527,7 +655,7 @@
       <div>
         <div class="eyebrow">Private daily support</div>
         <h1>Punch</h1>
-        <p>A softer place to score the day, write freely, and keep private notes on this device until you choose to export them.</p>
+        <p>A softer place to check in with your day, write freely, and keep private notes on this device until you choose to export them.</p>
         <div class="app-badge">Local-first privacy</div>
       </div>
       <div class="hero-actions">
@@ -544,6 +672,11 @@
       <button data-section="panic" onclick="showSection('panic')">Help</button>
     </div>
    
+    <div class="alert support-disclaimer">
+      <strong>Support note</strong>
+      Punch is a self-support and reflection tool. It is not a replacement for therapy, medical care, or emergency support. If you feel unsafe or may hurt yourself, contact emergency services or a crisis line now.
+    </div>
+   
     <section id="home" class="section">
       <div class="grid">
         <div>
@@ -555,17 +688,45 @@
               <button class="btn secondary" onclick="showSection('breathing')">Do breathing exercise</button>
             </div>
           </div>
+
+          <div class="card">
+            <h2>When extra support may help</h2>
+            <p class="subtle">Punch can help you notice patterns and prepare notes, but it is not meant to replace professional care. Consider speaking with a counselor, psychologist, doctor, or other qualified professional if anxiety is affecting daily life.</p>
+            <ul class="support-list">
+              <li>Sleep, eating, school, work, or relationships feel harder for several days or weeks.</li>
+              <li>You avoid important activities because of fear, panic, or worry.</li>
+              <li>You feel stuck, unsafe, or unable to manage the feeling alone.</li>
+            </ul>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+              <button class="btn secondary" onclick="showSection('grounding')">Prepare notes</button>
+              <button class="btn primary" onclick="showSection('panic')">Open support options</button>
+            </div>
+          </div>
         </div>
 
         <div>
           <div class="card">
             <h2>Quick snapshot</h2>
             <div class="stats">
-              <div class="stat-box">Average score<strong id="avgLevel">0.0</strong></div>
+              <div class="stat-box">Average check-in level<strong id="avgLevel">0.0</strong></div>
               <div class="stat-box">Saved check-ins<strong id="checkinCount">0</strong></div>
             </div>
             <div class="alert">Privacy first: in this HTML app, journal text and check-ins are stored locally in your browser on this device. They are not sent anywhere by this file.</div>
             <div class="alert">If you want to clear your private data later, use the reset button in Saved check-ins.</div>
+          </div>
+
+          <div class="card">
+            <h2>Comfort settings</h2>
+            <p class="subtle">Adjust the page if your eyes feel tired or motion feels distracting. These settings only change how the app feels on this device.</p>
+            <div class="comfort-controls">
+              <button class="btn secondary" type="button" onclick="setLargeText(true)">Larger text</button>
+              <button class="btn secondary" type="button" onclick="setLargeText(false)">Standard text</button>
+              <button class="btn secondary" type="button" onclick="setReducedMotion(true)">Reduce motion</button>
+              <button class="btn secondary" type="button" onclick="setReducedMotion(false)">Regular motion</button>
+              <button class="btn secondary" type="button" onclick="setDarkMode(true)">Dark mode</button>
+              <button class="btn secondary" type="button" onclick="setDarkMode(false)">Light mode</button>
+            </div>
+            <div id="comfortSettingsMessage" class="footer-note">Current setting: standard text, regular motion, light mode.</div>
           </div>
         </div>
       </div>
@@ -619,11 +780,11 @@
     <section id="checkin" class="section hidden">
       <div class="card">
         <h2>Quick check-in</h2>
-        <p class="subtle">Keep it simple. Mark the day with a score, add any tags you want, note anything that might be stirring anxiety, and leave a few thoughts if you want.</p>
+        <p class="subtle">Keep it simple. Choose a feeling level, add any tags you want, note anything that might be stirring anxiety, and leave a few thoughts if you want. These levels are not grades, just gentle notes.</p>
 
         <label for="anxietyRange">How is the day feeling right now?</label>
         <input id="anxietyRange" type="range" min="1" max="10" value="5" oninput="updateLevelLabel()" />
-        <p><strong id="levelLabel">Score: 5 / 10</strong></p>
+        <p><strong id="levelLabel">Level: 5 / 10</strong></p>
 
         <div style="margin-top:16px;">
           <label class="small-label" for="tagInput">Tags</label>
@@ -663,8 +824,32 @@
     <section id="grounding" class="section hidden">
       <div class="card">
         <h2>Ground</h2>
-        <p class="subtle">Use these 5-4-3-2-1 prompts if they help, and add anything else you want to remember from this moment.</p>
+        <p class="subtle">Use a quick version when writing feels hard, or use the full 5-4-3-2-1 prompts if you want more structure.</p>
 
+        <div class="card quick-ground-card" style="box-shadow:none; margin-bottom:14px;">
+          <h2 style="font-size:1.05rem;">Quick grounding mode</h2>
+          <p class="subtle">Fill in only one or two boxes if that is enough. The goal is to feel a little more present, not to complete everything.</p>
+          <div class="stack">
+            <div>
+              <label class="small-label" for="quickGroundSee">One thing I can see</label>
+              <textarea id="quickGroundSee" placeholder="Example: the window, a cup, my hands..."></textarea>
+            </div>
+            <div>
+              <label class="small-label" for="quickGroundFeel">One thing I can feel</label>
+              <textarea id="quickGroundFeel" placeholder="Example: my feet on the floor, my sweater, the chair..."></textarea>
+            </div>
+            <div>
+              <label class="small-label" for="quickGroundHear">One thing I can hear</label>
+              <textarea id="quickGroundHear" placeholder="Example: traffic, the fan, quiet sounds around me..."></textarea>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+            <button class="btn secondary" type="button" onclick="useQuickGroundingAsJournal()">Use quick notes in Journal</button>
+            <button class="btn secondary" type="button" onclick="clearQuickGroundingFields()">Clear quick notes</button>
+          </div>
+        </div>
+
+        <p class="subtle">Full 5-4-3-2-1 grounding prompts:</p>
         <div class="stack">
           <div>
             <label class="small-label" for="groundSee">5 things you can see</label>
@@ -693,8 +878,10 @@
         </div>
 
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
-          <button class="btn secondary" onclick="useGroundingAsJournal()">Use these notes in Journal</button>
+          <button class="btn secondary" type="button" onclick="useGroundingAsJournal()">Use these notes in Journal</button>
+          <button class="btn secondary" type="button" onclick="clearGroundingFields()">Clear grounding notes</button>
         </div>
+        <div id="groundingMessage"></div>
       </div>
 
       <div class="card">
@@ -725,6 +912,8 @@
       <div class="card">
         <h2>Saved check-ins</h2>
         <p class="subtle">Open the month view, click any date, and read all the check-ins saved on that day.</p>
+        <div class="alert">These entries are not grades. They are gentle notes to help you notice patterns with kindness, not pressure.</div>
+        <div id="afterSaveSupportMessage"></div>
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
           <button class="btn secondary" onclick="clearAllSavedData()">Clear all private data</button>
         </div>
@@ -784,6 +973,18 @@
         <h2>Panic mode</h2>
         <p class="subtle">Pause. Put both feet on the ground. Unclench your jaw. Breathe out longer than you breathe in.</p>
         <div class="alert danger">If you may hurt yourself, feel unable to stay safe, or believe there is an immediate emergency, stop using the app and contact emergency services or a crisis line now. You do not need to handle this alone.</div>
+
+        <div class="card" style="margin-top:18px; box-shadow:none;">
+          <h2 style="font-size:1.15rem;">First, are you safe right now?</h2>
+          <p class="subtle">Choose the closest answer. This helps the app show the next safest step.</p>
+          <div class="safety-choice-grid">
+            <button class="btn primary" type="button" onclick="handleSafetyChoice('safe')">Yes, help me calm down</button>
+            <button class="btn secondary" type="button" onclick="handleSafetyChoice('unsure')">I am not sure</button>
+            <button class="btn danger" type="button" onclick="handleSafetyChoice('unsafe')">No, I need urgent help</button>
+          </div>
+          <div id="safetyChoiceMessage"></div>
+          <div class="soft-note">You do not have to explain everything right now. One safe next step is enough.</div>
+        </div>
 
         <div class="two-col" style="margin-top:16px;">
           <div>
@@ -873,7 +1074,8 @@
       journalEntries: 'punch_journal_entries',
       trustedContact: 'anxiety_relief_trusted_contact',
       safetyPlan: 'anxiety_relief_safety_plan_v2',
-      region: 'anxiety_relief_region'
+      region: 'anxiety_relief_region',
+      accessibilityPrefs: 'punch_accessibility_prefs'
     };
 
     let checkIns = [];
@@ -925,7 +1127,7 @@
 
     function updateLevelLabel() {
       const level = document.getElementById('anxietyRange').value;
-      document.getElementById('levelLabel').textContent = 'Score: ' + level + ' / 10';
+      document.getElementById('levelLabel').textContent = 'Level: ' + level + ' / 10';
     }
 
     function parseTags(text) {
@@ -957,7 +1159,7 @@
         }
         editingCheckInId = null;
         document.querySelector('#checkin .btn.primary').textContent = 'Save check-in';
-        msg.innerHTML = '<div class="alert">Check-in updated privately in this browser.</div>';
+        msg.innerHTML = '<div class="alert">Saved. Thank you for checking in with yourself. One small next step is enough.</div>';
       } else {
         const entry = {
           id: 'checkin-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
@@ -970,7 +1172,7 @@
         };
         checkIns.unshift(entry);
         selectedDateKey = entry.dateKey;
-        msg.innerHTML = '<div class="alert">Check-in saved privately in this browser.</div>';
+        msg.innerHTML = '<div class="alert">Saved. Thank you for checking in with yourself. One small next step is enough.</div>';
       }
 
       saveToStorage(STORAGE_KEYS.checkIns, checkIns);
@@ -979,6 +1181,7 @@
       renderCalendar();
       updateStats();
       updateRecommendation(level);
+      showAfterSaveSupport('checkin');
       showSection('progress');
     }
 
@@ -1098,7 +1301,7 @@
           'Saved at: ' + entry.date + '<br>';
 
         if (entry.entryType === 'checkin') {
-          html += 'Score: ' + entry.level + '/10<br>' +
+          html += 'Level: ' + entry.level + '/10<br>' +
             'Tags: ' + (entry.tags.length ? entry.tags.join(', ') : 'None added') + '<br>' +
             'Trigger or context: ' + (entry.trigger ? entry.trigger : 'None added') + '<br>' +
             'Thoughts: ' + (entry.thoughts ? entry.thoughts : 'None added');
@@ -1106,7 +1309,10 @@
         } else {
           html += 'Mood: ' + (entry.mood ? entry.mood : 'Not specified') + '<br>' +
             'Journal: ' + (entry.text ? entry.text : 'No text added');
-          html += '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;"><button class="btn secondary" onclick="editJournalEntry(\'' + entry.id + '\')">Edit journal</button></div>';
+          html += '<div style="display:grid; gap:8px; margin-top:10px; max-width:180px;">' +
+            '<button class="btn secondary" onclick="editJournalEntry(\'' + entry.id + '\')">Edit journal</button>' +
+            '<button class="btn danger" onclick="deleteJournalEntry(\'' + entry.id + '\')">Delete journal</button>' +
+            '</div>';
         }
 
         div.innerHTML = html;
@@ -1167,7 +1373,7 @@
         cell.innerHTML =
           '<div class="calendar-day-number">' + cellDate.getDate() + '</div>' +
           '<div class="calendar-day-meta">' +
-            (dayEntries.length ? '<div class="calendar-day-entries">' + dayEntries.length + ' saved</div><div>' + (dayCheckIns.length ? 'Avg ' + avgScore + '/10' : 'Journal only') + '</div>' : '<div class="calendar-day-entries">No notes</div>') +
+            (dayEntries.length ? '<div class="calendar-day-entries">' + dayEntries.length + ' saved</div><div>' + (dayCheckIns.length ? 'Avg level ' + avgScore + '/10' : 'Journal only') + '</div>' : '<div class="calendar-day-entries">No notes</div>') +
           '</div>';
 
         cell.addEventListener('click', function() {
@@ -1282,6 +1488,71 @@
     }
 
     
+
+function appendBlockToJournal(title, parts) {
+  const journal = document.getElementById('journalText');
+  const block = parts.map(function(item) {
+    return item[0] + ': ' + item[1];
+  }).join('\n\n');
+
+  if (journal.value.trim()) {
+    journal.value = journal.value + '\n\n--- ' + title + ' ---\n\n' + block;
+  } else {
+    journal.value = block;
+  }
+
+  saveJournalDraft();
+}
+
+function useQuickGroundingAsJournal() {
+  const parts = [
+    ['One thing I can see', document.getElementById('quickGroundSee').value.trim()],
+    ['One thing I can feel', document.getElementById('quickGroundFeel').value.trim()],
+    ['One thing I can hear', document.getElementById('quickGroundHear').value.trim()]
+  ].filter(function(item) { return item[1]; });
+
+  const msg = document.getElementById('groundingMessage');
+  if (!parts.length) {
+    if (msg) {
+      msg.innerHTML = '<div class="alert danger">Write at least one quick grounding note first.</div>';
+    }
+    return;
+  }
+
+  appendBlockToJournal('Quick Grounding Exercise', parts);
+  if (msg) {
+    msg.innerHTML = '<div class="alert">Quick grounding notes were added to Journal. You can keep writing or save the journal when ready.</div>';
+  }
+}
+
+function clearQuickGroundingFields() {
+  ['quickGroundSee', 'quickGroundFeel', 'quickGroundHear'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+
+  const msg = document.getElementById('groundingMessage');
+  if (msg) {
+    msg.innerHTML = '<div class="alert">Quick grounding notes cleared. Your Journal section was not changed.</div>';
+  }
+}
+
+function handleSafetyChoice(choice) {
+  const msg = document.getElementById('safetyChoiceMessage');
+  if (!msg) return;
+
+  if (choice === 'safe') {
+    msg.innerHTML = '<div class="alert">Good. Start with one small calming step. You can try breathing, grounding, or contact someone you trust if you want support.</div>';
+  } else if (choice === 'unsure') {
+    msg.innerHTML = '<div class="alert">When you are not sure, choose connection over staying alone. Consider calling or texting a crisis line, or contact your trusted person below.</div>';
+  } else {
+    msg.innerHTML = '<div class="alert danger">Please contact emergency services or a crisis line now. If possible, move near another person or a safer place while you call.</div>';
+    const emergencyButton = document.getElementById('emergencyButton');
+    if (emergencyButton) {
+      emergencyButton.focus();
+    }
+  }
+}
+
    function useGroundingAsJournal() {
   const parts = [
     ['5 things you can see', document.getElementById('groundSee').value.trim()],
@@ -1296,21 +1567,22 @@
     return;
   }
 
-  const journal = document.getElementById('journalText');
-  
-  // ✅ Double line break between each item
-  const block = parts.map(function(item) {
-    return item[0] + ': ' + item[1];
-  }).join('\n\n');
-
-  // Add a separator if there's existing journal content
-  if (journal.value.trim()) {
-    journal.value = journal.value + '\n\n--- Grounding Exercise ---\n\n' + block;
-  } else {
-    journal.value = block;
+  appendBlockToJournal('Grounding Exercise', parts);
+  const msg = document.getElementById('groundingMessage');
+  if (msg) {
+    msg.innerHTML = '<div class="alert">Grounding notes were added to Journal. You can keep writing or save the journal when ready.</div>';
   }
-  
-  saveJournalDraft();
+}
+
+function clearGroundingFields() {
+  ['quickGroundSee', 'quickGroundFeel', 'quickGroundHear', 'groundSee', 'groundFeel', 'groundHear', 'groundSmell', 'groundTaste', 'groundOther'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+
+  const msg = document.getElementById('groundingMessage');
+  if (msg) {
+    msg.innerHTML = '<div class="alert">All grounding notes cleared. Your Journal section was not changed.</div>';
+  }
 }
 
     function saveJournalDraft() {
@@ -1345,7 +1617,7 @@ function saveJournalToCalendar() {
     }
     editingJournalId = null;
     document.getElementById('saveJournalCalendarButton').textContent = 'Save journal to Calendar';
-    msg.innerHTML = '<div class="alert">Journal updated in Calendar.</div>';
+    msg.innerHTML = '<div class="alert">Journal updated. Thank you for taking a moment to write it down.</div>';
   } else {
     const entry = {
       id: 'journal-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
@@ -1356,7 +1628,7 @@ function saveJournalToCalendar() {
     };
     journalEntries.unshift(entry);
     selectedDateKey = entry.dateKey;
-    msg.innerHTML = '<div class="alert">Journal saved to Calendar.</div>';
+    msg.innerHTML = '<div class="alert">Journal saved. Thank you for taking a moment to write it down.</div>';
   }
 
   saveToStorage(STORAGE_KEYS.journalEntries, journalEntries);
@@ -1374,6 +1646,7 @@ function saveJournalToCalendar() {
   renderCalendar();
   renderEntries(selectedDateKey);
   updateDefaultExportRange();
+  showAfterSaveSupport('journal');
   showSection('progress');
 }       
 
@@ -1403,6 +1676,36 @@ function editCheckIn(id) {
       showSection('grounding');
     }
 
+    function deleteJournalEntry(id) {
+      const entry = journalEntries.find(function(item) { return item.id === id; });
+      if (!entry) return;
+
+      if (!confirm('Delete this journal entry from Calendar? This cannot be undone.')) {
+        return;
+      }
+
+      journalEntries = journalEntries.filter(function(item) { return item.id !== id; });
+      saveToStorage(STORAGE_KEYS.journalEntries, journalEntries);
+
+      if (editingJournalId === id) {
+        editingJournalId = null;
+        document.getElementById('saveJournalCalendarButton').textContent = 'Save journal to Calendar';
+        document.getElementById('journalMessage').innerHTML = '';
+      }
+
+      renderCalendar();
+      renderEntries(selectedDateKey);
+      updateDefaultExportRange();
+
+      const wrap = document.getElementById('entries');
+      if (wrap) {
+        const note = document.createElement('div');
+        note.className = 'alert';
+        note.textContent = 'Journal entry deleted from Calendar.';
+        wrap.prepend(note);
+      }
+    }
+
     function buildPrintSummary(includeCount, includeAverage) {
       const parts = [];
       if (includeCount) {
@@ -1410,7 +1713,7 @@ function editCheckIn(id) {
       }
       if (includeAverage) {
         const avg = checkIns.length ? (checkIns.reduce(function(sum, item) { return sum + item.level; }, 0) / checkIns.length).toFixed(1) : '0.0';
-        parts.push('<div><strong>Average daily score:</strong> ' + avg + '</div>');
+        parts.push('<div><strong>Average check-in level:</strong> ' + avg + '</div>');
       }
       return parts.join('');
     }
@@ -1436,7 +1739,7 @@ function editCheckIn(id) {
         html += '<div><strong>Check-in ' + (sourceEntries.length - index) + '</strong></div>';
         html += '<div><strong>Date:</strong> ' + entry.date + '</div>';
         if (options.includeLevel) {
-          html += '<div><strong>Daily score:</strong> ' + entry.level + '/10</div>';
+          html += '<div><strong>Check-in level:</strong> ' + entry.level + '/10</div>';
         }
         if (options.includeTags) {
           html += '<div><strong>Tags:</strong> ' + (entry.tags.length ? entry.tags.join(', ') : 'None added') + '</div>';
@@ -1469,7 +1772,7 @@ function editCheckIn(id) {
     } else {
       html += '<div><strong>Check-in ' + (entries.length - index) + '</strong></div>';
       html += '<div><strong>Date:</strong> ' + entry.date + '</div>';
-      html += '<div><strong>Daily score:</strong> ' + entry.level + '/10</div>';
+      html += '<div><strong>Check-in level:</strong> ' + entry.level + '/10</div>';
       html += '<div><strong>Tags:</strong> ' + (entry.tags && entry.tags.length ? entry.tags.join(', ') : 'None added') + '</div>';
       html += '<div><strong>Trigger or context:</strong> ' + (entry.trigger ? entry.trigger : 'None added') + '</div>';
       html += '<div><strong>Thoughts:</strong> ' + (entry.thoughts ? entry.thoughts : 'None added') + '</div>';
@@ -1499,7 +1802,7 @@ function editCheckIn(id) {
         details += '<div class="range-selection-meta"><strong>Mood:</strong> ' + (entry.mood || 'Not specified') + '</div>';
         details += '<div class="range-selection-meta">' + (entry.text || 'No text added') + '</div>';
       } else {
-        details += '<div class="range-selection-meta"><strong>Score:</strong> ' + entry.level + '/10</div>';
+        details += '<div class="range-selection-meta"><strong>Level:</strong> ' + entry.level + '/10</div>';
         details += '<div class="range-selection-meta"><strong>Tags:</strong> ' + (entry.tags && entry.tags.length ? entry.tags.join(', ') : 'None added') + '</div>';
         details += '<div class="range-selection-meta"><strong>Trigger:</strong> ' + (entry.trigger || 'None added') + '</div>';
         details += '<div class="range-selection-meta">' + (entry.thoughts || 'No thoughts added') + '</div>';
@@ -1711,8 +2014,11 @@ function editCheckIn(id) {
       currentCalendarDate = new Date();
       renderEntries();
       document.getElementById('calendarExportMessage').innerHTML = '';
+      const afterSave = document.getElementById('afterSaveSupportMessage');
+      if (afterSave) afterSave.innerHTML = '';
       renderCalendar();
       updateStats();
+      applyAccessibilityPrefs({ largeText: false, reducedMotion: false, darkMode: false }, false);
       document.getElementById('recommendationText').textContent = 'Start with a quick check-in, then come back here whenever you want to write freely and keep things soft and simple.';
     }
 
@@ -1728,6 +2034,74 @@ function editCheckIn(id) {
         if (!dateInputStart.value) dateInputStart.value = todayKey;
         if (!dateInputEnd.value) dateInputEnd.value = todayKey;
       }
+    }
+
+
+    function showAfterSaveSupport(kind) {
+      const wrap = document.getElementById('afterSaveSupportMessage');
+      if (!wrap) return;
+
+      const savedText = kind === 'journal'
+        ? 'Journal saved. Thank you for taking a moment to write it down.'
+        : 'Check-in saved. Thank you for checking in with yourself.';
+
+      wrap.innerHTML = '<div class="alert">' +
+        '<strong>' + savedText + '</strong><br>' +
+        'Choose one small next step: take a sip of water, stretch your shoulders, breathe for one minute, or contact someone if you need support.' +
+        '<div class="after-save-actions">' +
+          '<button class="btn secondary" type="button" onclick="showSection(\'breathing\')">Breathe for one minute</button>' +
+          '<button class="btn secondary" type="button" onclick="showSection(\'grounding\')">Ground myself</button>' +
+          '<button class="btn primary" type="button" onclick="showSection(\'panic\')">I need support</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function getAccessibilityPrefs() {
+      return loadFromStorage(STORAGE_KEYS.accessibilityPrefs, {
+        largeText: false,
+        reducedMotion: false,
+        darkMode: false
+      });
+    }
+
+    function applyAccessibilityPrefs(prefs, shouldSave) {
+      document.body.classList.toggle('large-text', !!prefs.largeText);
+      document.body.classList.toggle('reduce-motion', !!prefs.reducedMotion);
+      document.body.classList.toggle('dark-mode', !!prefs.darkMode);
+
+      const msg = document.getElementById('comfortSettingsMessage');
+      if (msg) {
+        const textSize = prefs.largeText ? 'larger text' : 'standard text';
+        const motion = prefs.reducedMotion ? 'reduced motion' : 'regular motion';
+        const color = prefs.darkMode ? 'dark mode' : 'light mode';
+        msg.textContent = 'Current setting: ' + textSize + ', ' + motion + ', ' + color + '.';
+      }
+
+      if (shouldSave !== false) {
+        saveToStorage(STORAGE_KEYS.accessibilityPrefs, prefs);
+      }
+    }
+
+    function setLargeText(enabled) {
+      const prefs = getAccessibilityPrefs();
+      prefs.largeText = enabled;
+      applyAccessibilityPrefs(prefs);
+    }
+
+    function setReducedMotion(enabled) {
+      const prefs = getAccessibilityPrefs();
+      prefs.reducedMotion = enabled;
+      applyAccessibilityPrefs(prefs);
+    }
+
+    function setDarkMode(enabled) {
+      const prefs = getAccessibilityPrefs();
+      prefs.darkMode = enabled;
+      applyAccessibilityPrefs(prefs);
+    }
+
+    function restoreAccessibilityPrefs() {
+      applyAccessibilityPrefs(getAccessibilityPrefs(), false);
     }
 
     function restoreSavedState() {
@@ -1776,6 +2150,7 @@ function editCheckIn(id) {
 
     document.getElementById('journalDate').value = new Date().toLocaleString();
     updateLevelLabel();
+    restoreAccessibilityPrefs();
     restoreSavedState();
   </script>
 </body>
