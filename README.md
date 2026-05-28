@@ -29,33 +29,6 @@ Punch is not a medical product, therapy service, crisis service, or replacement 
 
 No installation is required.
 
-## How to publish with GitHub Pages
-
-1. Create a new GitHub repository.
-2. Upload these files to the repository:
-   - `index.html`
-   - `README.md`
-   - `LICENSE`
-   - `.gitignore`
-   - `.nojekyll`
-3. Go to **Settings** → **Pages**.
-4. Under **Build and deployment**, choose:
-   - Source: **Deploy from a branch**
-   - Branch: **main**
-   - Folder: **/root**
-5. Click **Save**.
-6. Wait for GitHub Pages to generate your site link.
-
-Your app will be available at a URL like:
-
-```text
-https://your-username.github.io/your-repository-name/
-```
-
-## Suggested repository description
-
-A local-first mental wellness check-in and journaling web app built with HTML, CSS, and JavaScript.
-
 ## Tech stack
 
 - HTML
